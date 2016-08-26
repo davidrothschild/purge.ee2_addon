@@ -31,7 +31,7 @@ class Purge_acc
 	public $name        = PURGE_NAME;
 	public $id          = 'purge';
 	public $version     = PURGE_VERSION;
-	public $description = 'Provides a place to manually send a purge request to Varnish.';
+	public $description = 'Provides a place to manually send a purge request to fcgi cache.';
 	public $sections    = array();
 	
 	/**
@@ -43,7 +43,7 @@ class Purge_acc
 		
 		$data['request_url'] = html_entity_decode(BASE.AMP.'C=addons_accessories'.AMP.'M=process_request'.AMP.'accessory=purge'.AMP.'method=process_purge_request');
 		
-		$this->sections['Purge Varnish'] = $EE->load->view('accessory_purge_varnish', $data, TRUE);
+		$this->sections['Purge <s>Varnish</s> fcgi_cache'] = $EE->load->view('accessory_purge_varnish', $data, TRUE);
 	}
 	
 	/**

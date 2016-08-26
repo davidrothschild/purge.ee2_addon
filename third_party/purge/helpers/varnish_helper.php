@@ -29,11 +29,15 @@ if ( ! function_exists('send_purge_request'))
 	
 		$ch = curl_init();
 		
+		$purge_url = 'http://localhost/purge.php';
+		$port = 8080;
 		curl_setopt($ch, CURLOPT_URL, $purge_url);
 		curl_setopt($ch, CURLOPT_PORT , (int)$port);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'Host: '.$_SERVER['SERVER_NAME'] ) );
 		curl_setopt($ch, CURLOPT_ENCODING , "gzip");
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'PURGE');
+		curl_setopt($ch, CURLOPT_POST , true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS , http_build_query(array('url'=>$site_url)));
+		//curl_setopt($ch, CURLOPT_CUSTOMREQUEST,'PURGE');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,2); 
 		curl_setopt($ch, CURLOPT_TIMEOUT, 4);
@@ -43,10 +47,10 @@ if ( ! function_exists('send_purge_request'))
 			$resp = curl_error($ch);
 				
 		curl_close ($ch);
+		return $resp;
 		
-		preg_match("/<p>([^<]*)<\/p>/",$resp,$resp); //extract the core message from typical varnish response. 
-		
-		return $resp[1];
+		//preg_match("/<p>([^<]*)<\/p>/",$resp,$resp); //extract the core message from typical varnish response. 
+		//return $resp[1];
 	}
 }
 
